@@ -6,49 +6,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.empresa.entity.Deporte;
-import com.empresa.entity.Ubigeo;
-import com.empresa.service.DeporteService;
-import com.empresa.service.UbigeoService;
+import com.empresa.entity.Categoria;
+import com.empresa.entity.Estado;
+import com.empresa.service.CategoriaService;
+import com.empresa.service.EstadoService;
 
 @RestController
 @RequestMapping("/rest/util")
 @CrossOrigin(origins = "http://localhost:4200")
 public class UtilController {
-
+	
 	@Autowired
-	private DeporteService deporteService;
-
-	@Autowired
-	private UbigeoService ubigeoService;
-
-	@GetMapping("/deporte")
+	private CategoriaService categoriaService;
+	
+	@GetMapping("/categoria")
 	@ResponseBody
-	public ResponseEntity<List<Deporte>> listaAlumno() {
-		List<Deporte> lista = deporteService.listaDeporte();
+	public ResponseEntity<List<Categoria>> listaCategoria(){
+		
+		List<Categoria> lista = categoriaService.listaCategoria();
 		return ResponseEntity.ok(lista);
 	}
-
-	@GetMapping("/listaDepartamentos")
+	
+	@Autowired
+	private EstadoService estadoService;
+	
+	@GetMapping("/estado")
 	@ResponseBody
-	public List<String> listaDepartamentos() {
-		return ubigeoService.listaDepartamentos();
+	public ResponseEntity<List<Estado>> listaEstado(){
+		
+		List<Estado> lista = estadoService.listaEstado();
+		return ResponseEntity.ok(lista);
 	}
+	
 
-	@GetMapping("/listaProvincias/{paramDep}")
-	@ResponseBody
-	public List<String> listaProvincias(@PathVariable("paramDep") String dep) {
-		return ubigeoService.listaProvincias(dep);
-	}
-
-	@GetMapping("/listaDistritos/{paramDep}/{paramProv}")
-	@ResponseBody
-	public List<Ubigeo> listaDistritos(@PathVariable("paramDep") String dep, @PathVariable("paramProv") String prov) {
-		return ubigeoService.listaDistritos(dep, prov);
-	}
 }
